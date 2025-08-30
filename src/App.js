@@ -11,6 +11,7 @@ import { ReactComponent as SplashIcon } from './assets/splash-icon.svg';
 import Logo from './assets/logo.png';
 import ErrorBox from './components/Reusable/ErrorBox';
 import { ALL_DESCRIPTIONS } from './utilities/DateConstants';
+import WeatherChart from "./components/WeatherChart/WeatherChart";
 import {
   getTodayForecastWeather,
   getWeekForecastWeather,
@@ -19,9 +20,10 @@ import {
 function App() {
   const [todayWeather, setTodayWeather] = useState(null);
   const [todayForecast, setTodayForecast] = useState([]);
-  const [weekForecast, setWeekForecast] = useState(null);
+  const [weekForecast, setWeekForecast] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
+  
 
   const searchChangeHandler = async (enteredData) => {
     const [latitude, longitude] = enteredData.value.split(' ');
@@ -95,20 +97,81 @@ function App() {
     </Box>
   );
 
-  if (todayWeather && todayForecast && weekForecast) {
-    appContent = (
-      <React.Fragment>
-        <Grid item xs={12} md={todayWeather ? 6 : 12}>
-          <Grid item xs={12}>
-            <TodayWeather data={todayWeather} forecastList={todayForecast} />
-          </Grid>
+if (todayWeather && todayForecast && weekForecast) {
+  console.log("weekForecast.list >>>", weekForecast.list);
+  appContent = (
+    <React.Fragment>
+      <Grid item xs={12} md={todayWeather ? 6 : 12}>
+        <Grid item xs={12}>
+          <TodayWeather data={todayWeather} forecastList={todayForecast} />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <WeeklyForecast data={weekForecast} />
-        </Grid>
-      </React.Fragment>
-    );
-  }
+      </Grid>
+      <Grid item xs={12} md={6}>
+  <WeeklyForecast data={weekForecast} />
+
+  {Array.isArray(weekForecast.list) && weekForecast.list.length > 0 && (
+  <Box 
+    display="flex" 
+    flexDirection="row"        // เรียงแนวนอน
+    justifyContent="space-between" 
+    alignItems="flex-start" 
+    flexWrap="wrap"           // พับบรรทัดถ้าหน้าจอเล็ก
+    gap={16}                  // เว้นระยะห่างระหว่างกราฟ
+  >
+    {/* 📊 กราฟอุณหภูมิรายสัปดาห์ */}
+    <WeatherChart
+      data={weekForecast.list.map((item) => ({
+        day: item.date,
+        temp: item.temp,
+      }))}
+      title="Weekly Temperature"
+      dataKey="temp"
+      strokeColor="#82ca9d"
+      titleColor="white"
+    />
+
+    {/* 📊 กราฟความชื้นรายสัปดาห์ */}
+    <WeatherChart
+      data={weekForecast.list.map((item) => ({
+        day: item.date,
+        humidity: item.humidity,
+      }))}
+      title="Weekly Humidity"
+      dataKey="humidity"
+      strokeColor="#8884d8"
+      titleColor="white"
+    />
+    {/* 📊 กราฟลมรายสัปดาห์ */}
+    <WeatherChart
+      data={weekForecast.list.map((item) => ({
+        day: item.date,
+        wind: item.wind,
+      }))}
+      title="Weekly Wind"
+      dataKey="wind"
+      strokeColor="#ee0abcff"
+      titleColor="white"
+    />
+    {/* 📊 กราฟเมฒรายสัปดาห์ */}
+    <WeatherChart
+      data={weekForecast.list.map((item) => ({
+        day: item.date,
+        clouds: item.clouds,
+      }))}
+      title="Weekly Clouds"
+      dataKey="clouds"
+      strokeColor="#f10a0aff"
+      titleColor="white"
+    />
+  </Box>
+)}
+
+</Grid>
+
+    </React.Fragment>
+  );
+}
+
 
   if (error) {
     appContent = (
