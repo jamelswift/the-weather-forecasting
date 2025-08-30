@@ -198,7 +198,7 @@ function App() {
                 '&:hover': { color: '#2d95bd' },
               }}
             >
-              Developed by Wipatsasicha & Thanyatep
+              Developed by Wipatsasicha & Thanyathep
             </Typography>
           </Box>
           <Search onSearchChange={searchChangeHandler} />
