@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Container, Grid, Link, SvgIcon, Typography } from '@mui/material';
+import { Box, Container, Grid, SvgIcon, Typography } from '@mui/material';
 import Search from './components/Search/Search';
 import WeeklyForecast from './components/WeeklyForecast/WeeklyForecast';
 import TodayWeather from './components/TodayWeather/TodayWeather';
@@ -11,7 +11,6 @@ import { ReactComponent as SplashIcon } from './assets/splash-icon.svg';
 import Logo from './assets/logo.png';
 import ErrorBox from './components/Reusable/ErrorBox';
 import { ALL_DESCRIPTIONS } from './utilities/DateConstants';
-import GitHubIcon from '@mui/icons-material/GitHub';
 import {
   getTodayForecastWeather,
   getWeekForecastWeather,
@@ -191,20 +190,16 @@ function App() {
             />
 
             <UTCDatetime />
-            <Link
-              href="https://github.com/Amin-Awinti"
-              target="_blank"
-              underline="none"
-              sx={{ display: 'flex' }}
+            <Typography
+              sx={{
+                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                color: 'white',
+                fontFamily: 'Poppins',
+                '&:hover': { color: '#2d95bd' },
+              }}
             >
-              <GitHubIcon
-                sx={{
-                  fontSize: { xs: '20px', sm: '22px', md: '26px' },
-                  color: 'white',
-                  '&:hover': { color: '#2d95bd' },
-                }}
-              />
-            </Link>
+              Developed by Wipatsasicha & Thanyatep
+            </Typography>
           </Box>
           <Search onSearchChange={searchChangeHandler} />
         </Grid>
